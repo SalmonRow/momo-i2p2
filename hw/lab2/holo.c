@@ -5,7 +5,7 @@
 int main()
 {
     char holo[205];
-    scanf("%s", holo); // taking in the intial input as ref
+    scanf("%s", holo);
 
     char *plus_sign = strchr(holo, '+');
     if (plus_sign)
@@ -13,10 +13,6 @@ int main()
         *plus_sign = '\0';
         char *snum1 = holo;
         char *snum2 = plus_sign + 1;
-        printf("%s\n", snum1);
-        printf("%s\n", snum2);
-        printf("----------------------\n");
-        printf("%d\n", strlen(snum2));
 
         char result[205];
         int k = 0, carry = 0;
