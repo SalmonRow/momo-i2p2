@@ -44,13 +44,13 @@ void print_lines(char **string_arr, int *len, int n)
 {
     for (int i = 0; i < n; i++)
     {
-        if (len[i] < 0)
+        if (len[i] > 0)
         {
             for (int j = 0; j < len[i]; j++)
             {
-                printf('%c', string_arr[i][j]);
+                printf("%c", string_arr[i][j]);
             }
-            printf('\n');
+            printf("\n");
         }
     }
 }
