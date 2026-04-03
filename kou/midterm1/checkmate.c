@@ -54,7 +54,7 @@ int is_hit(GameState *s, Position k, char b[8][8])
                 if (nx < 0 || nx > 7 || ny < 0 || ny > 7)
                     break;
                 if (nx == k.x && ny == k.y)
-                    return i;
+                    return i; // this is when it hit the king
                 if (b[nx][ny])
                     break;
                 if (p.type == 'N')
