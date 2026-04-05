@@ -1,7 +1,5 @@
-#include <stdio.h>
+#include "function.h"
 #include <stdlib.h>
-#include "14151.h"
-#include <string.h>
 
 Table *createTable()
 {

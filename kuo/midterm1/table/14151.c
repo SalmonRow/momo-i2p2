@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "function.h"
-#include "14151.h"
 
 #define TABLE_COUNT 50
 #define GUEST_COUNT 50

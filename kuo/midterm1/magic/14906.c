@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "function.h"
-#include "function.h"
 
 int main()
 {

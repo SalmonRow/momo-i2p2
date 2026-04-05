@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "function.h"
 
 char **create_string_array(int n)
 {
