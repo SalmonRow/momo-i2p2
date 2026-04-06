@@ -70,7 +70,10 @@ void Check_Checkmate(GameState *s, SearchResult *r)
     char b[8][8] = {0};
     for (int i = 0; i < s->player_count; i++)
         b[s->player[i].pos.x][s->player[i].pos.y] = 1;
-    Position k = s->opponent[0].pos;
+    for (int i = 0; i < s->opponent_count; i++)
+    {
+        b[s->opponent[i].pos.x][s->opponent[i].pos.x] = 1;
+    }
     int hit = is_hit(s, k, b);
     if (hit != -1)
     {
