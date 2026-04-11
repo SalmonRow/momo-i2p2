@@ -1,4 +1,5 @@
 #include "function.h"
+#include "function.c"
 #include <stdio.h>
 #include <string.h>
 

@@ -55,7 +55,7 @@ int is_hit(GameState *s, Position k, char b[8][8])
                     break;
                 if (nx == k.x && ny == k.y)
                     return i; // this is when it hit the king
-                if (b[nx][ny])
+                if (b[nx][ny] != 0)
                     break;
                 if (p.type == 'N')
                     break;
@@ -68,12 +68,19 @@ int is_hit(GameState *s, Position k, char b[8][8])
 void Check_Checkmate(GameState *s, SearchResult *r)
 {
     char b[8][8] = {0};
+    Position k;
+
     for (int i = 0; i < s->player_count; i++)
         b[s->player[i].pos.x][s->player[i].pos.y] = 1;
     for (int i = 0; i < s->opponent_count; i++)
     {
-        b[s->opponent[i].pos.x][s->opponent[i].pos.x] = 1;
+        b[s->opponent[i].pos.x][s->opponent[i].pos.y] = 2; // opponent is 2,
+        if (s->opponent[i].type == 'K')
+        {
+            k = s->opponent[i].pos;
+        }
     }
+
     int hit = is_hit(s, k, b);
     if (hit != -1)
     {
@@ -81,7 +88,9 @@ void Check_Checkmate(GameState *s, SearchResult *r)
         r->moves[0] = (Move){s->player[hit].pos, k};
         return;
     }
-    b[k.x][k.y] = 1;
+
+    // the checkmate in two
+    b[k.x][k.y] = 2;
     for (int i = 0; i < s->player_count; i++)
     {
         Piece p = s->player[i];
@@ -98,7 +107,7 @@ void Check_Checkmate(GameState *s, SearchResult *r)
             {
                 nx += d[j][0];
                 ny += d[j][1];
-                if (nx < 0 || nx > 7 || ny < 0 || ny > 7 || b[nx][ny])
+                if (nx < 0 || nx > 7 || ny < 0 || ny > 7 || b[nx][ny] != 0)
                     break;
                 Position old = s->player[i].pos;
                 b[old.x][old.y] = 0;
