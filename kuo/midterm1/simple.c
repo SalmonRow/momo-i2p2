@@ -34,9 +34,9 @@ int main()
         if (strcmp(cmd, "Insert") == 0)
         {
             int i;
-            char m[10005], n[10005] = "";
-            scanf("%d %s", &i, m);
-            to_hex(m, n);
+            char str[10005], n[10005] = "";
+            scanf("%d %s", &i, str);
+            to_hex(str, n);
 
             int len_n = strlen(n);
             int len_s = strlen(s);
