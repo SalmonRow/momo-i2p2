@@ -32,15 +32,24 @@ Node *createList(int n) // a butt moving func to create ll
 
 void solve(Node *head, int N, int K)
 {
-    Node *current = head;
-    int n = N;
-    int k = K;
-    while (n > 1)
+    Node *curr = head;
+    while (N > 1)
     {
-        int steps = (abs(k) - 1) % n;
-        for (int i = 0; i < n - 1; i++)
-        {
-            int stop = (abs(k) - i) % (n - 1)
-        }
+        int steps = (abs(K) - 1) % N;
+        for (int j = 0; j < steps; j++)
+            curr = (K > 0) ? curr->next : curr->prev;
+
+        printf("%d ", curr->id);
+        int nk = curr->tolerance;
+        Node *nhead = (K > 0) ? curr->next : curr->prev;
+
+        curr->next->prev = curr->prev;
+        curr->prev->next = curr->next;
+        Node *temp = curr;
+        curr = nhead;
+        K = nk;
+        free(temp);
+        N--;
     }
+    printf("\n%d\n", curr->id);
 }
