@@ -4,7 +4,8 @@
 #include <string.h>
 
 #define MAXN 1000005
-char buffer[MAXN];
+char bufferA[MAXN];
+char bufferB[MAXN];
 int pos;
 
 typedef struct _Node
@@ -15,7 +16,7 @@ typedef struct _Node
 
 Node *format_A(char *s)
 {
-    if (s[pos] == '/' || s[pos] == '\0' || s[pos] == '\n')
+    if (s[pos] == '/' || s[pos] == '\0' || s[pos] == '\n' || s[pos] == ')')
         return NULL;
 
     if (s[pos] == '(')
@@ -121,13 +122,13 @@ int main()
     int t;
     scanf("%d ", &t);
 
-    fgets(buffer, MAXN, stdin);
+    fgets(bufferA, MAXN, stdin);
     pos = 0;
-    Node *rootA = format_A(buffer);
+    Node *rootA = format_A(bufferA);
 
-    fgets(buffer, MAXN, stdin);
+    fgets(bufferB, MAXN, stdin);
     pos = 0;
-    Node *rootB = format_B(buffer);
+    Node *rootB = format_B(bufferB);
 
     if (isSame(rootA, rootB) == 1)
         printf("YES");
