@@ -4,37 +4,36 @@
 
 BTNode *EXPR()
 {
-    BTNode *n = FACTOR();
+    BTNode *node = FACTOR();
 
     while (pos >= 0 && (expr[pos] == '&' || expr[pos] == '|'))
     {
         BTNode *op = makeNode(expr[pos]);
         pos--;
-        op->right = n;
+        op->right = node;
         op->left = EXPR();
-        n = op;
+        node = op;
     }
 
-    return n;
+    return node;
 }
 BTNode *FACTOR()
 {
-    BTNode *n;
+    BTNode *node;
 
     if (expr[pos] == ')')
     {
         pos--;
-        n = EXPR();
+        node = EXPR();
         pos--;
     }
-
     else
     {
-        n = makeNode(expr[pos]);
+        node = makeNode(expr[pos]);
         pos--;
     }
 
-    return n;
+    return node;
 }
 
 BTNode *makeNode(char c)
