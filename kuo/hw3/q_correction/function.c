@@ -11,17 +11,16 @@ void solve(Node *head, int l, int r)
         return;
 
     Node *prev = head;
-    for (int i = 0; i < l - 1; i++)
+    for (int i = 1; i < l; i++)
     {
         prev = prev->next;
     }
 
-    Node *cur = prev->next;
-
-    for (int i = 0; i < r - l; i++)
+    Node *current = prev->next;
+    for (int i = 1; i < r; i++)
     {
-        Node *temp = cur->next;
-        cur->next = temp->next;
+        Node *temp = current->next;
+        current->next = temp->next;
         temp->next = prev->next;
         prev->next = temp;
     }

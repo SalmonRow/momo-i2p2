@@ -1,84 +1,140 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
+
 #define MAXN 1000005
-int pos = 0;
-char buffer[MAXN];
+char bufferA[MAXN];
+char bufferB[MAXN];
+int pos;
 
-typedef struct Node
+typedef struct _Node
 {
-    int value;
+    int val;
     struct _Node *left, *right;
-
 } Node;
 
-Node *formatA(char *s)
+Node *format_A(char *s)
 {
-    if (s[pos] == '/' || s[pos] == '\0' || s[pos] == '\n')
-        pos++;
+    // Base cases for empty subtrees or end of strings
+    if (s[pos] == '/' || s[pos] == '\0' || s[pos] == '\n' || s[pos] == '\r' || s[pos] == ')')
+        return NULL;
 
-    Node *n = malloc(sizeof(Node));
+    if (s[pos] == '(')
+        pos++; // Consume outer '('
 
+    Node *nn = malloc(sizeof(Node));
     int val = 0;
-    if (isdigit(s[pos]))
+
+    while (isdigit(s[pos]))
     {
         val = val * 10 + (s[pos] - '0');
         pos++;
     }
-    n->value = val;
+    nn->val = val;
 
     if (s[pos] == '/')
-        pos++;
-    n->left = formatA(s);
+        pos++; // Consume separator
+    nn->left = format_A(s);
+
     if (s[pos] == '/')
-        pos++;
-    n->right = formatA(s);
+        pos++; // Consume separator
+    nn->right = format_A(s);
 
     if (s[pos] == ')')
-        pos++;
+        pos++; // Consume outer ')'
 
-    return n;
+    return nn;
 }
 
-Node *formatB(char *s)
+Node *format_B(char *s)
 {
-    if (s[pos] == '(' && s[pos + 1] == ')')
-    {
+    // Skip any trailing whitespaces/newlines safely
+    while (s[pos] == ' ' || s[pos] == '\n' || s[pos] == '\r')
         pos++;
+
+    // Base case: If no digit, it's an empty node (e.g., inside "()")
+    if (!isdigit(s[pos]))
         return NULL;
+
+    Node *nn = malloc(sizeof(Node));
+    int val = 0;
+
+    while (isdigit(s[pos]))
+    {
+        val = val * 10 + (s[pos] - '0');
+        pos++;
+    }
+    nn->val = val;
+
+    if (s[pos] == '(')
+    {
+        pos++; // Consume left child '('
+        nn->left = format_B(s);
+        if (s[pos] == ')')
+            pos++; // Consume left child ')'
+    }
+    else
+    {
+        nn->left = NULL;
     }
 
-    return NULL;
+    if (s[pos] == '(')
+    {
+        pos++; // Consume right child '('
+        nn->right = format_B(s);
+        if (s[pos] == ')')
+            pos++; // Consume right child ')'
+    }
+    else
+    {
+        nn->right = NULL;
+    }
+
+    return nn;
 }
 
-int compare(Node *a, Node *b)
+int isSame(Node *a, Node *b)
 {
+    if (a == NULL && b == NULL)
+        return 1;
+    if (a == NULL || b == NULL)
+        return 0;
+    if (a->val != b->val)
+        return 0;
+
+    return isSame(a->left, b->left) && isSame(a->right, b->right);
 }
 
-void freet(Node *a)
+void freeTree(Node *root)
 {
+    if (root == NULL)
+        return;
+    freeTree(root->left);
+    freeTree(root->right);
+    free(root);
 }
 
 int main()
 {
-    int n;
-    scanf("%d", &n);
+    int t;
+    if (scanf("%d ", &t) != 1)
+        return 0;
 
-    fgets(buffer, MAXN, stdin);
+    fgets(bufferA, MAXN, stdin);
     pos = 0;
-    Node *roota = formatA(buffer);
+    Node *rootA = format_A(bufferA);
 
-    fgets(buffer, MAXN, stdin);
+    fgets(bufferB, MAXN, stdin);
     pos = 0;
-    Node *rootb = formatB(buffer);
+    Node *rootB = format_B(bufferB);
 
-    if (compare)
-        printf("YES");
+    if (isSame(rootA, rootB))
+        printf("YES\n");
     else
-        printf("NO");
+        printf("NO\n");
 
-    freet(roota);
-    freet(rootb);
-
+    freeTree(rootA);
+    freeTree(rootB);
     return 0;
 }
