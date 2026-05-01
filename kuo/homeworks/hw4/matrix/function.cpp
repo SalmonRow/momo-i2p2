@@ -23,7 +23,7 @@ void Matrix::subtract(const Matrix &rhs)
 }
 void Matrix::multiply(const Matrix &rhs)
 {
-    // temp matrix to read from
+    // temp matrix for temp result and read from the current matrix "this"
     long long n = this->n;
     long long **tmp = new long long *[n];
     for (long long i = 0; i < n; i++)
@@ -51,6 +51,7 @@ void Matrix::multiply(const Matrix &rhs)
         }
     }
 
+    // free()
     for (long long i = 0; i < n; i++)
     {
         delete[] tmp[i];
@@ -61,11 +62,12 @@ void Matrix::transpose()
 {
     for (long long i = 0; i < this->n; i++)
     {
-        for (long long j = i + 1; j < this->n; j++)
+        for (long long j = i + 1; j < this->n; j++) // iterate only the top half of the triangle
         {
             long long temp = this->data[i][j];
             this->data[i][j] = this->data[j][i];
             this->data[j][i] = temp;
+            // normal swap logic
         }
     }
 }
@@ -79,12 +81,13 @@ void Matrix::power(long long x)
     {
         if (x % 2 == 1)
         {
-            result.multiply(base);
+            result.multiply(base); // run at least once here
         }
-        base.multiply(base);
+        base.multiply(base); // overshoot but it's alr
         x /= 2;
     }
 
+    // project
     for (long long i = 0; i < this->n; i++)
     {
         for (long long j = 0; j < this->n; j++)
