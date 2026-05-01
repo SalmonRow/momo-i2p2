@@ -3,12 +3,9 @@
 > "This ape has moved from throwing stones to throwing segmentation faults..."
 
 ---
-
-### 🚀 The Mission
-
 This is the stone tablet equivalent for **Introduction to Programming II** at NTHU. It documents the transformation of raw "Uga Uga" into (hopefully) functional software. (It compiled... somehow.)
 
-### ‼️ Disclaimer
+### Disclaimer
 
 **WARNING:** This codebase was forged in a volatile chemical reaction of **Late nights delirium**, **high-velocity Hsinchu wind**, and **pure adrenaline spikes**.
 
