@@ -5,11 +5,11 @@ using namespace std;
 
 VendingMachine::VendingMachine()
 {
-    int capacity = 2000000;
-    int *data = new int[capacity];
-    int size = 0; // index
-    long long totalRevenue = 0;
-    int totalSold = 0;
+    capacity = 2000000;
+    data = new int[capacity];
+    size = 0; // index
+    totalRevenue = 0;
+    totalSold = 0;
 }
 
 VendingMachine::~VendingMachine()
@@ -30,6 +30,33 @@ void VendingMachine::store(int price)
 
 void VendingMachine::sell()
 {
+    if (size <= 0)
+        return;
+
+    totalSold++;
+    totalRevenue += data[0];
+
+    size--;
+    data[0] = data[size]; // swap the last one to the root of the BT
+
+    int cur = 0;
+    while (true)
+    {
+        int left = (cur * 2) + 1;
+        int right = (cur * 2) + 2;
+        int parent = (cur);
+
+        if (left < size && data[parent] > data[left])
+            parent = left;
+        if (right < size && data[parent] > data[right])
+            parent = right;
+
+        if (parent == cur)
+            break;
+
+        swap(data[parent], data[cur]);
+        cur = parent;
+    }
 }
 
 void VendingMachine::printResult()
