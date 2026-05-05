@@ -10,7 +10,6 @@ void Matrix::add(const Matrix &rhs)
         }
     }
 }
-
 void Matrix::subtract(const Matrix &rhs)
 {
     for (long long i = 0; i < this->n; i++)
@@ -23,51 +22,44 @@ void Matrix::subtract(const Matrix &rhs)
 }
 void Matrix::multiply(const Matrix &rhs)
 {
-    // temp matrix for temp result and read from the current matrix "this"
-    long long n = this->n;
-    long long **tmp = new long long *[n];
-    for (long long i = 0; i < n; i++)
+    long long **temp = new long long *[this->n];
+    for (long long i = 0; i < this->n; i++)
     {
-        tmp[i] = new long long[n];
-    }
-    for (long long i = 0; i < n; i++)
-    {
-        for (long long j = 0; j < n; j++)
-        {
-            tmp[i][j] = 0;
-
-            for (long long k = 0; k < n; k++)
-            {
-                tmp[i][j] += this->data[i][k] * rhs.data[k][j];
-            }
-        }
+        temp[i] = new long long[this->n];
     }
 
     for (long long i = 0; i < this->n; i++)
     {
         for (long long j = 0; j < this->n; j++)
         {
-            this->data[i][j] = tmp[i][j];
+            temp[i][j] = 0;
+            for (long long k = 0; k < this->n; k++)
+            {
+                temp[i][j] += this->data[i][k] * rhs.data[k][j];
+            }
         }
     }
 
-    // free()
-    for (long long i = 0; i < n; i++)
+    for (long long i = 0; i < this->n; i++)
     {
-        delete[] tmp[i];
+        delete[] this->data[i];
     }
-    delete[] tmp;
+    delete[] this->data;
+
+    // pointing to the newone.
+    this->data = temp;
 }
 void Matrix::transpose()
 {
+    // no temp matrix appraoch
     for (long long i = 0; i < this->n; i++)
     {
-        for (long long j = i + 1; j < this->n; j++) // iterate only the top half of the triangle
+        for (long long j = i + 1; j < this->n; j++)
         {
             long long temp = this->data[i][j];
             this->data[i][j] = this->data[j][i];
             this->data[j][i] = temp;
-            // normal swap logic
+            // avoiding stl ...
         }
     }
 }
@@ -81,13 +73,13 @@ void Matrix::power(long long x)
     {
         if (x % 2 == 1)
         {
-            result.multiply(base); // run at least once here
+            result.multiply(base);
         }
-        base.multiply(base); // overshoot but it's alr
+        base.multiply(base);
         x /= 2;
     }
 
-    // project
+    // project because the result dat will be deleted after
     for (long long i = 0; i < this->n; i++)
     {
         for (long long j = 0; j < this->n; j++)

@@ -2,49 +2,43 @@
 
 using namespace std;
 
-List_stack::List_stack() // initiate a husk/ shell
+List_stack::List_stack()
 {
     head = NULL;
     tail = NULL;
 }
-
 List_stack::~List_stack()
 {
-    while (head)
+    while (tail)
     {
         pop();
     }
 }
-
 void List_stack::push(const int &info)
 {
     ListNode *newnode = new ListNode(info);
 
-    if (head == NULL && tail == NULL)
+    if (head == NULL && tail == NULL) // the first elements;
     {
         head = newnode;
         tail = newnode;
     }
-    else
-    {
-        tail->nextPtr = newnode;
-        newnode->prevPtr = tail;
-        tail = newnode;
-    }
+
+    tail->nextPtr = newnode;
+    newnode->prevPtr = tail;
+    tail = newnode; // move the tail up
 }
 void List_stack::pop()
 {
-    if (head == NULL && tail == NULL)
+    if (!tail)
         return;
 
     ListNode *delnode = tail;
-
     if (head == tail)
     {
         head = NULL;
         tail = NULL;
     }
-
     else
     {
         tail = tail->prevPtr;
@@ -55,14 +49,13 @@ void List_stack::pop()
 }
 void List_stack::print()
 {
-    ListNode *cur_node = tail;
-    while (cur_node)
+    ListNode *cur = tail;
+    while (cur)
     {
-        cout << cur_node->data;
-        if (cur_node->prevPtr != NULL)
-        {
+        cout << cur->data;
+        if (cur->prevPtr != NULL)
             cout << " ";
-        }
-        cur_node = cur_node->prevPtr;
+
+        cur = cur->prevPtr;
     }
 }
