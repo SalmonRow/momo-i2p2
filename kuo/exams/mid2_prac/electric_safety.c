@@ -2,16 +2,16 @@
 #include <stdlib.h>
 
 // globals
-int heap[10005];
+long long heap[10005];
 int size = 0;
 
-void push(int val)
+void push(long long val)
 {
     heap[++size] = val; // add at the end and then swapping it
     int i = size;
     while (i > 1 && heap[i] < heap[i / 2])
     {
-        int temp = heap[i];
+        long long temp = heap[i];
         heap[i] = heap[i / 2];
         heap[i / 2] = temp;
 
@@ -19,9 +19,9 @@ void push(int val)
     }
 }
 
-int pop()
+long long pop()
 {
-    int val = heap[1]; // pop from the beginning
+    long long val = heap[1]; // pop from the beginning
     heap[1] = heap[size];
     size--;
     int i = 1;
@@ -39,7 +39,7 @@ int pop()
         if (smallest == i)
             break;
 
-        int temp = heap[i];
+        long long temp = heap[i];
         heap[i] = heap[smallest];
         heap[smallest] = temp;
 
@@ -62,7 +62,7 @@ int main()
     long long total = 0;
     while (size > 1)
     {
-        int a = pop(), b = pop();
+        long long a = pop(), b = pop();
         total += a;
         total += b;
         push(a + b);
